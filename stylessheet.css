@@ -1,0 +1,362 @@
+/* Resetting default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Styling the black section */
+.black-section {
+    
+    
+     /* Adjust as needed */
+    position: relative;
+    display: flex; /* Use flexbox */
+    align-items: center; /* Vertically center items */
+    margin-top: 1%;
+}
+
+/* Styling text inside the black section */
+.black-section .containers {
+    border: 2px solid white; /* Add border */
+    border-radius: 10px; /* Add border radius */
+    padding: 20px; /* Add padding */
+    text-align: left;
+    width: 50%;
+    height: 350px; /* Set a fixed width */
+     margin-bottom: 20px; 
+     /* Align content to the left */ 
+}
+
+
+.black-section h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.black-section p {
+    font-size: 1.2em;
+}
+
+.black-section ul {
+    list-style-position: inside; /* Align list dots with content */
+}
+
+.black-section ul li {
+    margin-bottom: 10px; /* Add margin between list items */
+}
+
+
+.image-container {
+    width: 200px; /* Adjust as needed */
+    overflow: hidden;
+    white-space: nowrap; /* Prevent line breaks */
+    text-align: right; /* Align images to the right */
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    display: inline-block;
+    transition: transform 0.5s ease; /* Smooth transition when sliding */
+}
+
+
+.skills{
+    flex: 1; /* Take up remaining space */
+    text-align: left;/* Align text to the left */
+    margin-right: 20px;
+    margin-bottom: 20%; }
+
+    .black-section .skills {
+        margin-bottom: 20px; /* Reduce space between "Skills" title and containers */
+    }
+    
+    .skills h2 {
+        margin-bottom: 0; /* Remove margin below "Skills" title */
+        text-align: center; /* Center "Skills" title */
+    }
+    /* Add animation for slide-in effect from right to left */
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Apply animation to .containers elements */
+.black-section .containers {
+    opacity: 0; /* Initially hide elements */
+    animation: slideInRight 1s ease forwards; /* Apply slide animation */
+}
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Apply animation to .containers elements */
+.black-section .containers_1 {
+    opacity: 0; /* Initially hide elements */
+    animation: slideInRight 3s ease forwards; /* Apply slide animation */
+}
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Apply animation to .containers elements */
+.black-section .containers_2 {
+    opacity: 0; /* Initially hide elements */
+    animation: slideInRight 5s ease forwards; /* Apply slide animation */
+}
+   
+/* Define keyframes for slide-in animation from bottom to top */
+@keyframes slideInBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply animation to .image-container elements */
+.image-container {
+    opacity: 0; /* Initially hide element */
+    animation: slideInBottom 2s ease forwards; /* Apply slide animation */
+}
+/* Define keyframes for slide-in animation from right to left */
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Apply animation to h2 element within .container */
+.black-section .container h2 {
+    opacity: 0; /* Initially hide element */
+    animation: slideInRight 0.5s ease forwards; /* Apply slide animation */
+}
+footer{
+    background-color: #000;
+    margin-top: 10%;
+    max-height: 800px;
+    width: auto;
+
+}
+iframe{
+    max-height:200px ;
+    width: auto;
+    margin-top: 2%;
+    margin-left: 80%;
+}
+
+
+.footer-distributed{
+  background: #666;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  font: bold 16px sans-serif;
+  padding: 55px 50px;
+}
+
+.footer-distributed .footer-left,
+.footer-distributed .footer-center,
+.footer-distributed .footer-right{
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* Footer left */
+
+.footer-distributed .footer-left{
+  width: 40%;
+}
+
+/* The company logo */
+
+.footer-distributed h3{
+  color:  #ffffff;
+  font: normal 36px 'Open Sans', cursive;
+  margin: 0;
+}
+
+.footer-distributed h3 span{
+  color:  lightseagreen;
+}
+
+/* Footer links */
+
+.footer-distributed .footer-links{
+  color:  #ffffff;
+  margin: 20px 0 12px;
+  padding: 0;
+}
+
+.footer-distributed .footer-links a{
+  display:inline-block;
+  line-height: 1.8;
+  font-weight:400;
+  text-decoration: none;
+  color:  inherit;
+}
+
+.footer-distributed .footer-company-name{
+  color:  #222;
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0;
+}
+
+/* Footer Center */
+
+.footer-distributed .footer-center{
+  width: 35%;
+}
+
+.footer-distributed .footer-center i{
+  background-color:  #33383b;
+  color: #ffffff;
+  font-size: 25px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 42px;
+  margin: 10px 15px;
+  vertical-align: middle;
+}
+
+.footer-distributed .footer-center i.fa-envelope{
+  font-size: 17px;
+  line-height: 38px;
+}
+
+.footer-distributed .footer-center p{
+  display: inline-block;
+  color: #ffffff;
+  font-weight:400;
+  vertical-align: middle;
+  margin:0;
+}
+
+.footer-distributed .footer-center p span{
+  display:block;
+  font-weight: normal;
+  font-size:14px;
+  line-height:2;
+}
+
+.footer-distributed .footer-center p a{
+  color:  lightseagreen;
+  text-decoration: none;;
+}
+
+.footer-distributed .footer-links a:before {
+  content: "|";
+  font-weight:300;
+  font-size: 20px;
+  left: 0;
+  color: #fff;
+  display: inline-block;
+  padding-right: 5px;
+}
+
+.footer-distributed .footer-links .link-1:before {
+  content: none;
+}
+
+/* Footer Right */
+
+.footer-distributed .footer-right{
+  width: 20%;
+}
+
+.footer-distributed .footer-company-about{
+  line-height: 20px;
+  color:  #92999f;
+  font-size: 13px;
+  font-weight: normal;
+  margin: 0;
+}
+
+.footer-distributed .footer-company-about span{
+  display: block;
+  color:  #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.footer-distributed .footer-icons{
+  margin-top: 25px;
+}
+
+.footer-distributed .footer-icons a{
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  background-color:  #33383b;
+  border-radius: 2px;
+
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 35px;
+
+  margin-right: 3px;
+  margin-bottom: 5px;
+}
+
+/* If you don't want the footer to be responsive, remove these media queries */
+
+@media (max-width: 880px) {
+
+  .footer-distributed{
+    font: bold 14px sans-serif;
+  }
+
+  .footer-distributed .footer-left,
+  .footer-distributed .footer-center,
+  .footer-distributed .footer-right{
+    display: block;
+    width: 100%;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  .footer-distributed .footer-center i{
+    margin-left: 0;
+  }
+  iframe{
+    padding-left: 50%;
+    align-items: center;
+  }
+
+}

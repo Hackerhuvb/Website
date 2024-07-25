@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wozber Webpage Project Report</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 50px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .navbar {
+            background-color: #343a40;
+        }
+        .navbar .navbar-brand {
+            color: white;
+        }
+        .navbar .nav-link {
+            color: white;
+        }
+        .navbar .nav-link:hover {
+            color: #007bff;
+        }
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            z-index: 1000;
+        }
+        .dark-mode {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .content-section {
+            margin-bottom: 50px;
+        }
+        .main-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .download-btn {
+            display: block;
+            margin: 40px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            text-align: center;
+            font-size: 16px;
+        }
+        .download-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <button class="toggle-btn" onclick="toggleDarkMode()">Dark Mode</button>
+
+    <div class="container">
+        <h1 class="main-title">Winter Project on Wozber Website</h1>
+        
+        <div class="content-section" id="execSummary">
+            <h2>Executive Summary</h2>
+            <p>This report details the development of the Wozber webpage, a resume-building website created during the third semester. The primary objective was to develop an interactive and user-friendly platform for creating professional resumes. The methodology included planning, system design, implementation, and testing phases, leveraging technologies such as HTML, CSS, JavaScript, and Bootstrap. The key outcomes are a fully functional, responsive webpage that simplifies resume creation.</p>
+        </div>
+
+        <div class="content-section" id="introduction">
+            <h2>Introduction</h2>
+            <h3>Background</h3>
+            <p>Wozber is a resume-building website designed to assist users in creating professional resumes. The project originated from the need for an intuitive platform to streamline resume creation, catering to various professional requirements.</p>
+            <h3>Objectives</h3>
+            <p>The objectives of the Wozber webpage project are:</p>
+            <ul>
+                <li>To develop a user-friendly interface for resume building.</li>
+                <li>To ensure responsive design across different devices.</li>
+                <li>To provide customizable resume templates.</li>
+            </ul>
+            <h3>Scope</h3>
+            <p>The project scope includes:</p>
+            <ul>
+                <li>Developing the front end using HTML, CSS, JavaScript, and Bootstrap.</li>
+                <li>Implementing backend functionalities for user data management using PHP.</li>
+                <li>Ensuring database integration for storing user resumes.</li>
+            </ul>
+        </div>
+
+        <div class="content-section" id="planning">
+            <h2>Project Planning</h2>
+            <h3>Requirements Analysis</h3>
+            <p><strong>Functional Requirements:</strong> User authentication, resume template selection, real-time editing.</p>
+            <p><strong>Non-functional Requirements:</strong> Usability, performance, security.</p>
+            <h3>Project Plan</h3>
+            <p><strong>Timeline:</strong> Four months.</p>
+            <p><strong>Milestones:</strong> Requirement gathering, design, implementation, testing, and deployment.</p>
+            <p><strong>Key Activities:</strong> Coding, design review, testing phases, user feedback sessions.</p>
+        </div>
+
+        <div class="content-section" id="design">
+            <h2>System Design</h2>
+            <h3>Architecture</h3>
+            <p>The system architecture consists of:</p>
+            <ul>
+                <li><strong>Frontend:</strong> HTML, CSS, JavaScript, Bootstrap.</li>
+                <li><strong>Backend:</strong> PHP.</li>
+                <li><strong>Database:</strong> MongoDB.</li>
+            </ul>
+            <h3>Technologies Used</h3>
+            <p><strong>Programming Languages:</strong> HTML, CSS, JavaScript, PHP.</p>
+            <p><strong>Frameworks/Libraries:</strong> Bootstrap.</p>
+            <p><strong>Tools:</strong> Git, Visual Studio Code.</p>
+            <h3>Database Design</h3>
+            <p><strong>ER Diagrams:</strong> User, Resume, Template entities.</p>
+            <p><strong>Schema Design:</strong> Document-based MongoDB schema.</p>
+            <p><strong>Data Models:</strong> User profiles, resume templates, saved resumes.</p>
+        </div>
+
+        <div class="content-section" id="implementation">
+            <h2>Implementation</h2>
+            <h3>Frontend Development</h3>
+            <p><strong>Design Principles:</strong> Responsive design, user-centric interface.</p>
+            <p><strong>Frameworks:</strong> Bootstrap for styling and layout.</p>
+            <p><strong>Key Components:</strong> Navigation bar, resume editor, template gallery.</p>
+            <h3>Backend Development</h3>
+            <p><strong>Server-Side Logic:</strong> User authentication, resume data handling using PHP.</p>
+            <p><strong>Frameworks:</strong> None used.</p>
+            <p><strong>Key Functionalities:</strong> CRUD operations for resumes, template management.</p>
+            <h3>Database Integration</h3>
+            <p><strong>Database Setup:</strong> MongoDB installation and configuration.</p>
+            <p><strong>CRUD Operations:</strong> Create, Read, Update, Delete resumes.</p>
+            <p><strong>Data Management:</strong> Schema validation, indexing for performance.</p>
+            <h3>API Development</h3>
+            <p><strong>RESTful Services:</strong> Endpoints for user actions (e.g., /api/resumes, /api/users).</p>
+            <p><strong>Data Handling:</strong> JSON format, error handling.</p>
+        </div>
+
+        <div class="content-section" id="deployment">
+            <h2>Deployment</h2>
+            <h3>Deployment Process</h3>
+            <p><strong>Steps:</strong> Deploying the application on a cloud service (e.g., AWS, Heroku).</p>
+            <h3>Hosting and Domain</h3>
+            <p><strong>Hosting Service:</strong> Details of hosting provider and domain registration.</p>
+            <h3>Continuous Integration/Continuous Deployment (CI/CD)</h3>
+            <p><strong>Tools:</strong> Jira, GitHub Actions.</p>
+        </div>
+
+        <div class="content-section" id="results">
+            <h2>Results</h2>
+            <h3>Final Outcome</h3>
+            <p><strong>Description:</strong> Final website with all implemented features.</p>
+            <p><strong>Screenshots:</strong> Images showcasing different parts of the webpage.</p>
+            <h3>User Feedback</h3>
+            <p><strong>Feedback:</strong> Collected from test users and stakeholders.</p>
+        </div>
+
+        <div class="content-section" id="discussion">
+            <h2>Discussion</h2>
+            <h3>Challenges and Solutions</h3>
+            <p><strong>Challenges:</strong> Major issues faced during development.</p>
+            <p><strong>Solutions:</strong> How the challenges were addressed.</p>
+            <h3>Lessons Learned</h3>
+            <p><strong>Key Takeaways:</strong> Important learning experiences.</p>
+        </div>
+
+        <div class="content-section" id="conclusion">
+            <h2>Conclusion</h2>
+            <p><strong>Summary:</strong> Overview of the project's achievements.</p>
+            <h3>Future Work</h3>
+            <p><strong>Recommendations:</strong> Suggestions for future enhancements.</p>
+        </div>
+
+        <div class="content-section" id="references">
+            <h2>References</h2>
+            <ul>
+                <li><a href="https://www.wozber.com" target="_blank">Wozber Website</a></li>
+            </ul>
+        </div>
+
+        <div class="content-section" id="appendices">
+            <h2>Appendices</h2>
+            <p><strong>Supporting Documents:</strong> Code snippets, additional diagrams, etc.</p>
+        </div>
+
+        <button class="download-btn" onclick="downloadReport()">Download Report</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.querySelector('.toggle-btn');
+            if (document.body.classList.contains('dark-mode')) {
+                btn.textContent = 'Light Mode';
+            } else {
+                btn.textContent = 'Dark Mode';
+            }
+        }
+    
+        function downloadReport() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.setFontSize(22);
+            doc.text('Wozber Webpage Project Report', 10, 10);
+            doc.setFontSize(16);
+            
+            // Executive Summary
+            doc.text('Executive Summary', 10, 30);
+            doc.setFontSize(12);
+            doc.text('This report details the development of the Wozber webpage...', 10, 40);
+            
+            // Introduction
+            doc.setFontSize(16);
+            doc.text('Introduction', 10, 60);
+            doc.setFontSize(12);
+            doc.text('Background: Wozber is a resume-building website...', 10, 70);
+            
+            // Planning
+            doc.setFontSize(16);
+            doc.text('Project Planning', 10, 90);
+            doc.setFontSize(12);
+            doc.text('Functional Requirements: User authentication, resume template selection, real-time editing.', 10, 100);
+            
+            // Design
+            doc.setFontSize(16);
+            doc.text('System Design', 10, 120);
+            doc.setFontSize(12);
+            doc.text('Frontend: HTML, CSS, JavaScript, Bootstrap.', 10, 130);
+            
+            // Implementation
+            doc.setFontSize(16);
+            doc.text('Implementation', 10, 150);
+            doc.setFontSize(12);
+            doc.text('Design Principles: Responsive design, user-centric interface.', 10, 160);
+            
+            // Deployment
+            doc.setFontSize(16);
+            doc.text('Deployment', 10, 180);
+            doc.setFontSize(12);
+            doc.text('Steps: Deploying the application on a cloud service.', 10, 190);
+            
+            // Results
+            doc.setFontSize(16);
+            doc.text('Results', 10, 210);
+            doc.setFontSize(12);
+            doc.text('Description: Final website with all implemented features.', 10, 220);
+            
+            // Discussion
+            doc.setFontSize(16);
+            doc.text('Discussion', 10, 240);
+            doc.setFontSize(12);
+            doc.text('Challenges: Major issues faced during development.', 10, 250);
+            
+            // Conclusion
+            doc.setFontSize(16);
+            doc.text('Conclusion', 10, 270);
+            doc.setFontSize(12);
+            doc.text('Summary: Overview of the project\'s achievements.', 10, 280);
+            
+            // References
+            doc.setFontSize(16);
+            doc.text('References', 10, 300);
+            doc.setFontSize(12);
+            doc.text('Wozber Website: https://www.wozber.com', 10, 310);
+            
+            // Appendices
+            doc.setFontSize(16);
+            doc.text('Appendices', 10, 330);
+            doc.setFontSize(12);
+            doc.text('Supporting Documents: Code snippets, additional diagrams, etc.', 10, 340);
+            
+            // Finalize PDF
+            doc.save('Wozber_Website_Project_Report.pdf');
+        }
+    </script>
+</body>
+</html>
+
