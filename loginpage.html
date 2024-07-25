@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+<link rel="stylesheet" href="login.css">
+<style>
+    .error-message {
+        color: red;
+        display: none;
+        text-align: center;
+    }
+    .error-popup {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        padding: 20px;
+        z-index: 1000;
+        border-radius: 10px;
+    }
+    /* Prevent text selection on input fields */
+    input {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <form method="post" action="login.php" onsubmit="return validatePassword();">
+            <label for="username">User</label>
+            <input type="text" id="username" name="Username" placeholder="User" oncontextmenu="return false;"><br>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" onpaste="return false;" oncontextmenu="return false;"><br>
+            <div class="center">
+                <button type="submit">Login</button>
+            </div>
+            <div id="error-message" class="error-message">Incorrect password. Please try again.</div>
+        </form>
+    </div>
+    <script>
+        // Prevent right-click context menu
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+        
+        // Validate password function
+        function validatePassword() {
+            var password = document.getElementById('password').value;
+            // Add your validation logic here
+            if (password === '') {
+                document.getElementById('error-message').style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration Form</title>
+<!-- Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="https://getbootstrap.com/docs/5.0/assets/img/favicons/favicon-32x32.png">
+<!-- Custom CSS -->
+<style>
+    .form-label {
+        margin-bottom: 0.5rem;
+    }
+    .form-control {
+        margin-bottom: 1rem;
+    }
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-image: url('background.jpg'); /* Replace 'background_image.jpg' with your image path */
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .container {
+        background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        max-width: 500px;
+        margin-top: 50px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+    }
+    .custom-file {
+        position: relative;
+        width: 100%;
+        height: 2.4rem;
+        margin-bottom: 1rem;
+    }
+    .custom-file-label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 2px solid #b8b6b6;
+        border-radius: 5px;
+        padding: 0.5rem;
+        background-color: #ddeef9;
+        cursor: pointer;
+        text-align: left;
+    }
+    .custom-file-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+    textarea {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #e2cfcf;
+        border-radius: 5px;
+    }
+    .center {
+        text-align: center;
+        font-weight: bold;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #007bff; /* Blue color */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3; /* Darker blue color on hover */
+    }
+    .password-strength {
+        margin-top: 10px;
+        font-size: 0.9em;
+        color: #dc3545;
+    }
+    .email-error {
+        color: #dc3545;
+        font-size: 0.9em;
+        display: none;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <form action="Registration.php" method="post" enctype="multipart/form-data" id="registrationForm">
+            <h2 class="center">Registration Form</h2><br>
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required oninput="validateEmail()">
+                <div id="emailError" class="email-error">Please enter a valid Gmail address.</div>
+            </div>
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required oninput="checkPasswordStrength()">
+                    <div class="input-group-append">
+                        <span class="input-group-text" onclick="togglePasswordVisibility('password')">
+                            <i class="fa fa-eye" id="togglePasswordIcon">🫣</i>
+                        </span>
+                    </div>
+                </div>
+                <div id="passwordStrength" class="password-strength"></div>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password" class="form-label">Confirm Password</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required oninput="checkPasswordMatch()">
+                    <div class="input-group-append">
+                        <span class="input-group-text" onclick="togglePasswordVisibility('confirm_password')">
+                            <i class="fa fa-eye" id="toggleConfirmPasswordIcon">🫣</i>
+                        </span>
+                    </div>
+                </div>
+                <div id="passwordMatch" class="password-strength"></div>
+            </div>
+            <div class="center">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </form>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Font Awesome for eye icon -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <!-- Custom JS for toggling password visibility -->
+    <script>
+        function togglePasswordVisibility(id) {
+            var passwordInput = document.getElementById(id);
+            var icon = id === 'password' ? document.getElementById('togglePasswordIcon') : document.getElementById('toggleConfirmPasswordIcon');
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = "password";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function checkPasswordStrength() {
+            var password = document.getElementById('password').value;
+            var strengthText = document.getElementById('passwordStrength');
+            var strength = 0;
+            var specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/g;
+
+            if (password.length >= 8) strength += 1;
+            if (password.match(/[A-Z]/)) strength += 1;
+            if (password.match(/[a-z]/)) strength += 1;
+            if (password.match(/\d/)) strength += 1;
+            if (password.match(specialCharRegex)) strength += 1;
+
+            switch(strength) {
+                case 0:
+                case 1:
+                case 2:
+                    strengthText.textContent = "Weak password. Include at least one special character.";
+                    strengthText.style.color = "#dc3545";
+                    break;
+                case 3:
+                case 4:
+                    strengthText.textContent = "Moderate password. Consider adding more special characters.";
+                    strengthText.style.color = "#ffc107";
+                    break;
+                case 5:
+                    strengthText.textContent = "Strong password.";
+                    strengthText.style.color = "#28a745";
+                    break;
+            }
+        }
+
+        function checkPasswordMatch() {
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirm_password').value;
+            var matchText = document.getElementById('passwordMatch');
+            if (confirmPassword !== password) {
+                matchText.textContent = "Passwords do not match.";
+                matchText.style.color = "#dc3545";
+            } else {
+                matchText.textContent = "Passwords match.";
+                matchText.style.color = "#28a745";
+            }
+        }
+
+        function validateEmail() {
+            var email = document.getElementById('email').value;
+            var emailError = document.getElementById('emailError');
+            var emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+            if (!emailPattern.test(email)) {
+                emailError.style.display = 'block';
+            } else {
+                emailError.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
+

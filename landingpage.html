@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="stylessheet.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --footer-bg-color: #292c2f;
+            --footer-text-color: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --footer-bg-color: #1f1f1f;
+            --footer-text-color: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .footer-distributed {
+            background: var(--footer-bg-color);
+            color: var(--footer-text-color);
+            padding: 50px 50px;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .footer-distributed .footer-icons a {
+            color: var(--footer-text-color);
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 24px;
+        }
+
+        .carousel-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .carousel {
+            position: relative;
+            width: 48%;
+            overflow: hidden;
+        }
+
+        .carousel img, .carousel .text-slide {
+            width: 100%;
+            height: auto;
+            display: none;
+        }
+
+        .carousel img.active, .carousel .text-slide.active {
+            display: block;
+        }
+
+        iframe {
+            align-self: middle;
+            margin-left: 80%;
+        }
+        .carousel{
+            width: 100%;         /* Ensure the image width is 100% of the container width */
+            height: 100%;       /* Set a fixed height for the image */
+            object-fit: cover;   /* Ensure the image covers the container without distortion */
+            display: block;
+            border: 2px solid #000; 
+            /* Adds a border around images */
+        }
+
+        /* Toggle Switch Styles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 20px;
+            margin-left: 10px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(14px);
+        }
+
+        /* Popup styles */
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+            backdrop-filter: blur(10px); /* Adds blur effect */
+            border: 1px solid #794040;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+            opacity: 90%;
+            border-radius: 30%;
+        }
+
+        .popup.active {
+            display: block;
+        }
+
+        .popup .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .popup .btn-custom {
+            background-color: #3991e8; /* Bootstrap primary color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .popup .btn-custom:hover {
+            background-color: orange;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="images/Medhavi_Skills_University_official_Logo.png" alt="Logo" style="height: 30px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <!-- Dropdown for About -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        About
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="aboutDropdown">
+                        <a class="dropdown-item" href="#">Our Team</a>
+                        <a class="dropdown-item" href="#">Our History</a>
+                        <a class="dropdown-item" href="#">Mission & Vision</a>
+                    </div>
+                </li>
+                <!-- Dropdown for Projects -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="projectsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Projects
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="projectsDropdown">
+                        <a class="dropdown-item" href="winterproject.html">Winter_Project</a>
+                        <a class="dropdown-item" href="snage game.html">Snake_gane</a>
+                        <a class="dropdown-item" href="#">Project 3</a>
+                    </div>
+                </li>
+                <!-- Dropdown for Contact -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="contactDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Contact
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="contactDropdown">
+                        <a class="dropdown-item" href="mailto:naturerider12@gmail.com?subject=Inquiry%20from%20Website">Email Us</a>
+                        <a class="dropdown-item" href="tel:+91 9382867423">Call Us</a>
+                        <a class="dropdown-item" href="#">Visit Us</a>
+                    </div>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="loginpage.html">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="Rigistration.html">Sign Up</a></li>
+            </ul>
+            <!-- Dark/Light Mode Toggle Switch -->
+            <label class="switch">
+                <input type="checkbox" id="themeToggleCheckbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section class="black-section" >
+        <div class="container" style=" border: 2px solid #ccc; background-color: #000; color: white; /* Adds a border around the container */
+        padding: 20px;
+        margin-top: 20px;">
+            <div class="carousel-container">
+                <div class="carousel" id="textCarousel">
+                    <div class="text-slide active">
+                        <h2>About ME</h2>
+                        <p>
+                            I am Rohan Chettri, a dedicated and passionate individual who has recently completed my Bachelor of Computer Applications (BCA) with a specialization in Cloud Computing and Cybersecurity. My journey into the realm of technology began with a curiosity-driven exploration of computer science, which has since evolved into a focused pursuit of expertise in cloud computing and cybersecurity.
+                        </p>
+                    </div>
+                    <div class="text-slide">
+                        <h2>About Network Security</h2>
+                        <p>
+                            Network Security is a critical domain focused on safeguarding networks and data from unauthorized access, breaches, and various types of cyber threats. My journey into network security began with an interest in protecting information and infrastructure from potential vulnerabilities. This fascination has evolved into a deep understanding of firewall configurations, intrusion detection systems, and encryption protocols. 
+                        </p>
+                    </div>
+                    <div class="text-slide">
+                        <h2>About Linux</h2>
+                        <p>
+                            Linux is a powerful and versatile operating system, developed as an open-source and community-driven project. My exploration of Linux began with a curiosity about its open architecture and extensive customization capabilities. Over time, this interest has deepened into a comprehensive understanding of its various distributions, command-line tools, and security features.
+                        </p>
+                    </div>
+                    <div class="text-slide">
+                        <h2>About Databases</h2>
+                        <p>
+                            Databases are fundamental to modern technology, serving as the backbone for storing, managing, and retrieving data efficiently. My interest in databases started with a desire to understand how data can be organized and accessed optimally. This exploration has led to a deep understanding of various database management systems, including relational databases like MySQL and PostgreSQL, as well as NoSQL databases like MongoDB. 
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel" id="imageCarousel">
+                    <img src="images/L5xZfu.jpg" alt="Image 1" class="active">
+                    <img src="images/sunset-couple-love-romance.jpg" alt="Image 2">
+                    <img src="images/images.jpeg" alt="Image 3">
+                    <img src="images/hd-wallpapers-peacock-forest-ai-hd-wallpapers-peacock-forest-307012823.webp" alt="Image 4">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popup for Register/Login -->
+    <div class="popup" id="popup">
+        <button class="close-btn" id="closePopup">&times;</button>
+       <p style="font-size: medium;font-family: 'Times New Roman', Times, serif;margin-top: 10%;" ><a href="loginpage.html" class="btn btn-custom">Login</a> or <a href="Rigistration.html" class="btn btn-custom">Register</a> to continue.</p>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        let imageIndex = 0;
+        let textIndex = 0;
+        const images = document.querySelectorAll('#imageCarousel img');
+        const textSlides = document.querySelectorAll('#textCarousel .text-slide');
+
+        function showNextImage() {
+            images[imageIndex].classList.remove('active');
+            imageIndex = (imageIndex + 1) % images.length;
+            images[imageIndex].classList.add('active');
+        }
+
+        function showNextText() {
+            textSlides[textIndex].classList.remove('active');
+            textIndex = (textIndex + 1) % textSlides.length;
+            textSlides[textIndex].classList.add('active');
+        }
+
+        setInterval(showNextImage, 3000); // Change image every 3 seconds
+        setInterval(showNextText, 3000); // Change text every 3 seconds
+
+        // Dark/Light Mode Toggle Script
+        const themeToggleCheckbox = document.getElementById('themeToggleCheckbox');
+        const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            themeToggleCheckbox.checked = currentTheme === 'dark';
+        }
+
+        themeToggleCheckbox.addEventListener('change', function () {
+            if (themeToggleCheckbox.checked) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Popup Logic
+        const popup = document.getElementById('popup');
+        const closePopup = document.getElementById('closePopup');
+
+        setTimeout(() => {
+            popup.classList.add('active');
+            setTimeout(() => {
+                popup.classList.remove('active');
+            }, 10000);
+        }, 3000);
+
+        closePopup.addEventListener('click', () => {
+            popup.classList.remove('active');
+        });
+    </script>
+
+    <!-- Footer Section -->
+    <footer class="footer-distributed">
+        <div class="footer-left">
+            <p class="footer-links">
+                <a href="#" class="link-1">Home</a>
+                <a href="#">Blog</a>
+                <a href="#">Pricing</a>
+                <a href="#">About</a>
+                <a href="#">Faq</a>
+                <a href="#">Contact</a>
+            </p>
+            <p class="footer-company-name">Medhavi Skill University © 2024</p>
+        </div>
+        <div class="footer-center">
+            <div><i class="fa fa-map-marker"></i><p><span>SANGKHOLA</span> SINGTAM, EAST SIKKIM</p></div>
+            <div><i class="fa fa-phone"></i><p>+91 9382867423</p></div>
+            <div><i class="fa fa-envelope"></i><p><a href="mailto:support@company.com">Medhavi_Skills_University.com</a></p></div>
+        </div>
+        <div class="footer-right">
+            <p class="footer-company-about"><span>About the company</span>Medhavi Skill University is dedicated to providing high-quality education and skill development. Our mission is to empower students with practical knowledge and expertise in various domains, ensuring they are industry-ready. We offer a range of programs with a strong focus on hands-on learning and real-world applications.</p>
+            <div class="footer-icons">
+                <a href="https://www.facebook.com/login.php/"><i class="fa fa-facebook"></i></a>
+                <a href="https://twitter.com/login."><i class="fa fa-twitter"></i></a>
+                <a href="https://in.linkedin.com/"><i class="fa fa-linkedin"></i></a>
+                <a href="https://github.com/"><i class="fa fa-github"></i></a>
+            </div>
+        </div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11369.787937516898!2d88.5145263!3d27.2386756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e6a1c3e1baaaab%3A0x6e38bf86f7e3420b!2sMedhavi%20Skills%20University%20-%20Top%20College%20in%20Sikkim!5e0!3m2!1sen!2sin!4v1625488294653!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+    </footer>
+</body>
+</html>

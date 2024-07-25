@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #D6DBDF; /* Soft gray background */
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #1B2631; /* Change background color as needed */
+            padding: 11px 20px;
+            z-index: 1000; /* Ensure it's above other content */
+        }
+    
+        .navbar a {
+            color: white; /* Change link color as needed */
+            text-decoration: none;
+            margin-left: 10px; /* Add spacing between links */
+        }
+    
+        .navbar a:hover {
+            background-color: #AEB6BF; /* Darker shade on hover */
+            color: #fff; /* White text */
+            padding:9px;
+        }
+    
+        .custom-search-input {
+            background-color: #fff; /* White background */
+            color: #495057; /* Dark gray text */
+        }
+    
+        .custom-search-btn {
+            background-color: #34495E;
+            color: #fff; /* White text */
+        }
+    
+        .custom-search-btn:hover {
+            background-color: #D6DBDF;
+        }
+    
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #1B2631; /* Light blue sidebar */
+            overflow-x: hidden;
+            transition: width 0.5s ease; /* Smooth width transition */
+            padding-top: 60px;
+        }
+    
+        .sidenav a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff; /* White text */
+            display: block;
+            transition: 0.3s;
+        }
+    
+        .sidenav a:hover {
+            background-color: #D6DBDF; /* Darker shade on hover */
+        }
+    
+        .main {
+            transition: margin-left 0.5s ease; /* Smooth margin transition */
+            padding-top: 70px; /* Adjust top padding */
+            margin-left: 0; /* Adjust main content margin */
+        }
+
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #1B2631; /* Light blue button */
+            color: #fff; /* White text */
+            border: hidden;
+            padding: 10px 15px;
+            z-index: 9999;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            transition: background-color 0.3s; /* Smooth background transition */
+        }
+
+        .openbtn:hover {
+            background-color: #AEB6BF; /* Darker shade on hover */
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content:space-between  ;
+            border-radius: 20px;
+            margin-bottom: 0px;
+            background-color: #1B2631; /* White background */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            padding: 2px;
+        }
+
+        .card {
+            width: calc(25% - 20px);
+            border-radius: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding:15px;
+            margin:0px;
+            background-color: #1B2631; /* Light gray background */
+            text-align: center;
+            color:#F2F3F4 ;
+        
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-body {
+            padding: 2px;
+            margin-left:1%;
+            font-size: 12px;
+        }
+
+        .graph-container {
+            color:black;
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 0px;
+            margin-right: 10%;
+            padding-bottom: 0px;
+            background-color:lightgrey; /* White background */
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Media queries for responsive design */
+@media (max-width: 992px) {
+    .openbtn {
+        display: block; /* Show toggle button on smaller screens */
+    }
+
+    .sidenav {
+        padding-top: 50px; /* Adjust padding for toggle button */
+    }
+
+    .main {
+        margin-left: 0; /* Adjust main content margin */
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: calc(50% - 20px);
+    }
+    .graph-container {
+        width: calc(100% - 20px);
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        width: calc(100% - 20px);
+    }
+}
+
+/* New CSS styles for Admission/Discharge Management content */
+#admissionContent {
+    display: none; /* Initially hide the content */
+    padding: 20px;
+}
+
+/* Additional styles for default content */
+.default-content {
+    display: block; /* Initially show default content */
+    padding: 20px;
+}
+
+/* New CSS styles for Admission/Discharge Management parent container */
+#admission_discharge-container {
+    display: none; /* Initially hide the content */
+    padding: 20px;
+}
+
+/* Styles for individual cards in Admission/Discharge Management section */
+.card-container:not(.dashboard-content) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-radius: 20px;
+    margin: 10px;
+    background-color: #2E4053; /* Dark blue background */
+    box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    padding: 20px;
+}
+
+.card:not(.dashboard-content) {
+    flex: 1 1 calc(25% - 20px); /* Responsive: 4 cards per row */
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.5s ease;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #1B2631;
+    text-align: center;
+    color: #F2F3F4; /* White text */
+    border: 1px solid #F2F3F4;
+}
+
+.card:hover:not(.dashboard-content) {
+    transform: translateY(5px);
+    box-shadow: 10px 6px 6px 6px rgba(0, 0, 0, 0.3);
+}
+
+.card-body:not(.dashboard-content) {
+    padding: 2px;
+    font-size: 12px;
+}
+
+/* Hide the admission/discharge content on the dashboard */
+#dashboard-content #admission_discharge-container {
+    display: none;
+}
+
+/* CSS for all parent containers */
+.parent-container:not(.dashboard-content) {
+    height: 400px;
+    width: 300px; /* Adjust the height as needed */
+}
+
+/* Responsive design for cards and containers */
+@media (max-width: 768px) {
+    .card-container:not(.dashboard-content) {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card:not(.dashboard-content) {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+}
+
+/* Additional styles for smaller screens */
+@media (max-width: 576px) {
+    .card:not(.dashboard-content) {
+        width: 100%;
+    }
+}
+
+
+        /* New CSS styles for Admission/Discharge Management content */
+        #admissionContent {
+            display: none; /* Initially hide the content */
+            padding: 20px;
+        }
+
+        /* Additional styles for default content */
+        .default-content {
+            display: block; /* Initially show default content */
+            padding: 20px;
+        }
+
+                /* New CSS styles for Admission/Discharge Management parent container */
+        #admission_discharge-container {
+            display: none; /* Initially hide the content */
+            padding: 20px;
+        }
+
+        /* Styles for individual cards in Admission/Discharge Management section */
+        .card-container:not(.dashboard-content) {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            border-radius: 20px;
+            margin: 10px;
+            background-color: #2E4053; /* Dark blue background */
+            box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            padding: 20px;
+        }
+
+        .card:not(.dashboard-content) {
+            flex: 1 1 calc(25% - 20px); /* Responsive: 4 cards per row */
+            border-radius: 15px;
+            transition: transform 0.3s ease, box-shadow 0.5s ease;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #1B2631;
+            text-align: center;
+            color: #F2F3F4; /* White text */
+            border:#F2F3F4;
+        }
+
+        .card:hover:not(.dashboard-content) {
+            transform: translateY(5px);
+            box-shadow: 10px 6px 6px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-body:not(.dashboard-content) {
+            padding: 2px;
+            font-size: 12px;
+        }
+
+        /* Hide the admission/discharge content on the dashboard */
+        #dashboard-content #admission_discharge-container {
+            display: none;
+        }
+
+        /* CSS for all parent containers */
+        .parent-container:not(.dashboard-content) {
+            height: 400px;
+            width:300px; /* Adjust the height as needed */
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <button class="openbtn" onclick="toggleNav()">☰</button>
+    <div class="search-bar mx-auto">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2 custom-search-input" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn custom-search-btn my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    <a href="#">Logout</a>
+    <a href="#">Register</a>
+</div>
+
+<!-- Side Navigation -->
+<div class="sidenav" id="mySidenav">
+    <a href="#" class="active" onclick="showDefaultContent()"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    <a href="#" onclick="showContent('admission_discharge')"><i class="fas fa-user"></i> Admission/Discharge Management</a>
+    <a href="#" onclick="showContent('patient_information')"><i class="fas fa-user-injured"></i> Patient Information</a>
+    <a href="#" onclick="showContent('bed_allocation')"><i class="fas fa-bed"></i> Bed Allocation/Transfer</a>
+    <a href="#" onclick="showContent('staff_management')"><i class="fas fa-users"></i> Staff Management</a>
+    <a href="#" onclick="showContent('inventory_management')"><i class="fas fa-boxes"></i> Inventory Management</a>
+    <a href="#" onclick="showContent('reports_analytics')"><i class="fas fa-chart-line"></i> Report/Analysis</a>
+    <a href="#" onclick="showContent('settings')"><i class="fas fa-cog"></i> Settings</a>
+</div>
+
+<!-- Main Content -->
+<div class="main">
+    <div class="container">
+        <!-- Default content -->
+        <div class="default-content">
+            <!-- Cards Row -->
+            <div class="row card-container" style="background-color: #1B2631;">
+                <!-- Card 1 -->
+                <div class="card col-md-3" style="border: 2px solid #ccc; border-radius: 20px; margin-bottom: 20px; margin-top: 20px; margin-left: 1%; background-color: #1B2631;">
+                    <div class="card-body" >
+                        <h4 class="card-title" style="font-size: 22px;">Total Beds Occupied</h4>
+                        <p class="card-text">100 total beds available.</p>
+                        <div id="totalBedsChartCard" class="graph-container"></div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card col-md-3" style="border: 2px solid #ccc; border-radius: 20px; margin-bottom: 20px; margin-top: 20px; margin-left: 1%; background-color: #1B2631;">
+                    <div class="card-body">
+                        <h4 class="card-title" style="font-size: 22px;">ICU Beds Occupied</h4>
+                        <p class="card-text">15 are currently occupied.</p>
+                        <div id="icuBedsChartCard" class="graph-container"></div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card col-md-3" style="border: 2px solid #ccc; border-radius: 20px; margin-bottom: 20px; margin-top: 20px; margin-left: 1%; background-color: #1B2631;">
+                    <div class="card-body">
+                        <h4 class="card-title" style="font-size: 22px;">FW Beds Occupied</h4>
+                        <p class="card-text">30 beds out of 40 are occupied.</p>
+                        <div id="fwBedsChartCard" class="graph-container" style="text-align: center;"></div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="card col-md-3"  style="border: 2px solid #ccc; border-radius: 20px; margin-bottom: 20px; margin-top: 20px; margin-left: 1%; background-color: #1B2631;">
+                    <div class="card-body">
+                        <h4 class="card-title" style="font-size: 22px;">MW Beds Occupied</h4>
+                        <p class="card-text">40 beds out of 50 are occupied.</p>
+                        <div id="mwBedsChartCard" class="graph-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+        <!-- Admission/Discharge Management section -->
+        <div class="col-md-12 content" id="admission_discharge" style="display: none;">
+            <div class="card-body">
+                <h2><i class="fas fa-hospital"></i> Admission/Discharge Management</h2>
+                <div class="d-flex flex-wrap">
+                    <div class="card-container">
+                        <!-- Manage patient admissions -->
+                        <div class="card" style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 1%;">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-user-plus"></i> Manage patient admissions</h5>
+                                <p class="card-text">Add new patients to the system upon admission.</p>
+                               <a href="Paitent_Registration.html"> <button id="admitPatient" class="btn btn-primary">Admit Patient</button></a>
+                            </div>
+                        </div>
+                        <!-- Manage patient discharges -->
+                        <div class="card" style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 1%;">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-user-minus"></i> Manage patient discharges</h5>
+                                <p class="card-text">Discharge patients from the hospital system when they leave.</p>
+                                <button id="dischargePatient" class="btn btn-danger">Discharge Patient</button>
+                            </div>
+                        </div>
+                        <!-- Track bed occupancy and availability -->
+                        <div class="card"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 1%;"> 
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-bed"></i> Track bed occupancy and availability</h5>
+                                <p class="card-text">Monitor the status of beds in real-time to ensure efficient bed management.</p>
+                                <button  id="viewBedStatus" class="btn btn-primary">View Bed Status</button>
+                            </div>
+                        </div>
+                        <!-- Generate admission/discharge reports -->
+                        <div class="card"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 1%;">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-file-alt"></i> Generate admission/discharge reports</h5>
+                                <p class="card-text">Generate detailed reports on admissions and discharges for analysis and planning.</p>
+                                <button  id="generateReports" class="btn btn-primary">Generate Reports</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+<!--Patient Information-->
+    <div class="col-md-12 content" id="patient_information" style="display: none;">
+        <div class="card-body">
+            <h2><i class="fas fa-user"></i> Patient Information</h2>
+            <div class="d-flex flex-wrap">
+                <div class="card-container" > <!-- Parent container for cards -->
+                    <!-- View and manage patient records -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body" >
+                            <h5 class="card-title"><i class="fas fa-file-medical"></i> View and manage 
+                                <br>patient records<br></h5>
+                            <p class="card-text">Access and manage patient <br> records with ease.<br></p>
+                            <button id="viewrecords" class="btn btn-primary">View Records</button>
+                        </div>
+                    </div>
+                    <!-- Track patient demographics and medical history -->
+                    <div class="card flex-grow-1" style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-user-md"></i> Track patient demographics and medical history</h5>
+                            <p class="card-text">Keep track of patient demographics and medical history for better care.</p>
+                            <button id="Track Demographics" class="btn btn-primary">Track Demographics</button>
+                        </div>
+                    </div>
+                    <!-- Generate patient reports and summaries -->
+                    <div class="card flex-grow-1" style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-clipboard"></i> Generate patient reports and summaries</h5>
+                            <p class="card-text">Generate comprehensive reports and summaries for analysis and decision-making.</p>
+                            <button id="Track Demographics" class="btn btn-primary">Track Demographics</button>
+                        </div>
+                    </div>
+                    <!-- Additional functionality container -->
+                    <div class="card flex-grow-1" style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-plus-circle"></i> Additional Functionality</h5>
+                            <p class="card-text">Description of the additional functionality goes here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bed Allocation/Transfer section -->
+    <div class="col-md-12 content" id="bed_allocation" style="display: none;">
+        <div class="card-body" >
+            <h2><i class="fas fa-bed"></i> Bed Allocation/Transfer</h2>
+            <div class="d-flex flex-wrap">
+                <div class="card-container" > <!-- Parent container for cards -->
+                    <!-- Allocate beds to patients -->
+                    <div class="card flex-grow-1" style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                            <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-hospital-bed"></i> Allocate beds to patients</h5>
+                            <p class="card-text">Assign available beds to incoming patients based on their needs and conditions.</p>
+                            <button id="allocateBeds" class="btn btn-primary">Allocate Beds</button>
+                        </div>
+                    </div>
+                    <!-- Transfer patients between beds -->
+                    <div class="card flex-grow-1" style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-exchange-alt"></i> Transfer patients between beds</h5>
+                            <p class="card-text">Transfer patients between different wards or rooms for better management.</p>
+                            <button id="transferPatients" class="btn btn-warning">Transfer Patients</button>
+                        </div>
+                    </div>
+                    <!-- Discharge and vacate beds -->
+                    <div class="card flex-grow-1" style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-user-minus"></i> Discharge and vacate beds</h5>
+                            <p class="card-text">Discharge patients and free up beds for incoming <br>admissions.</p>
+                            <button class="btn btn-danger">Discharge Patients</button>
+                        </div>
+                    </div>
+                    <!-- Additional functionality container -->
+                     <div class="card flex-grow-1" style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-plus-circle"></i> Additional Functionality</h5>
+                            <p class="card-text">Description of the additional functionality goes here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staff Management section -->
+    <div class="col-md-12 content" id="staff_management" style="display: none;">
+        <div class="card-body">
+            <h2><i class="fas fa-users"></i> Staff Management</h2>
+            <div class="d-flex flex-wrap">
+                <div class="card-container"> <!-- Parent container for cards -->
+                    <!-- Manage staff information -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-id-card"></i> Manage staff information</h5>
+                            <p class="card-text">Access and update information about hospital staff members.</p>
+                            <button id="manageStaff" class="btn btn-primary">Manage Staff</button>
+                        </div>
+                    </div>
+                    <!-- Track staff schedules and shifts -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Track staff schedules and shifts</h5>
+                            <p class="card-text">Monitor the schedules and shifts of hospital.</p>
+                            <button id="trackSchedules" class="btn btn-warning">Track Schedules/button>
+                        </div>
+                    </div>
+                    <!-- Generate staff performance reports -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-chart-line"></i> Generate reports</h5>
+                            <p class="card-text">Generate reports on staff performance </p>
+                            <button id="generateReports" class="btn btn-primary">Generate Reports</button>
+                        </div>
+                    </div>
+                    <!-- Additional functionality container -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-plus-circle"></i> Additional Functionality</h5>
+                            <p class="card-text">Description of the additional functionality goes here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Inventory Management section -->
+     <div class="col-md-12 content" id="inventory_management" style="display: none;">
+        <div class="card-body">
+            <h2><i class="fas fa-boxes"></i> Inventory Management</h2>
+            <div class="d-flex flex-wrap">
+                <div class="card-container"> <!-- Parent container for cards -->
+                    <!-- Manage hospital inventory -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-clipboard-list"></i> Manage hospital inventory</h5>
+                            <p class="card-text">Track and manage inventory of medical supplies, equipment, and medications.</p>
+                            <button class="btn btn-primary">Manage Inventory</button>
+                        </div>
+                    </div>
+                    <!-- Track inventory levels and reorder supplies -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-chart-line"></i> Track inventory levels </h5>
+                            <p class="card-text">Monitor inventory levels and automatically<br> reorder supplies .</p>
+                            <button id="trackLevels" class="btn btn-primary">Track Levels</button>
+                        </div>
+                    </div>
+                    <!-- Generate inventory reports -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-file-alt"></i> Generate inventory reports</h5>
+                            <p class="card-text">Generate reports on inventory usage, stock levels, and reorder history.</p>
+                            <button id="generateReports" class="btn btn-primary">Generate Reports</button>
+                        </div>
+                    </div>
+                    <!-- Additional functionality container -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-plus-circle"></i> Additional Functionality</h5>
+                            <p class="card-text">Description of the additional functionality goes here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports/Analytics section -->
+    <div class="col-md-12 content" id="reports_analytics" style="display: none;">
+        <div class="card-body">
+            <h2><i class="fas fa-chart-bar"></i> Reports/Analytics</h2>
+            <div class="d-flex flex-wrap">
+                <div class="card-container"> <!-- Parent container for cards -->
+                    <!-- Generate custom reports -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-file-alt"></i> Generate custom<br> reports</h5>
+                            <p class="card-text">Create custom reports based on specific parameters and data sets.</p>
+                            <button class="btn btn-primary">Generate Reports</button>
+                        </div>
+                    </div>
+                    <!-- Analyze hospital performance metrics -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-chart-line"></i> Analyze hospital performance metrics</h5>
+                            <p class="card-text">Analyze key performance indicators to assess the overall performance of the hospital.</p>
+                            <button id="analyzeMetrics" class="btn btn-primary">Analyze Metrics</button>
+                        </div>
+                    </div>
+                    <!-- Visualize data with charts and graphs -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-chart-pie"></i> Visualize data with charts and graphs</h5>
+                            <p class="card-text">Use charts and graphs to visualize complex data sets for easier analysis.</p>
+                            <button id="viewCharts" class="btn btn-primary">View Charts</button>
+                        </div>
+                    </div>
+                    <!-- Additional functionality container -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 2%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-plus-circle"></i> Additional Functionality</h5>
+                            <p class="card-text">Description of the additional functionality goes here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings section -->
+    <div class="col-md-12 content" id="settings" style="display: none;">
+        <div class="card-body">
+            <h2><i class="fas fa-cogs"></i> Settings</h2>
+            <div class="d-flex flex-wrap">
+                <div class="card-container"> <!-- Parent container for cards -->
+                    <!-- Manage system settings -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 1%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-tools"></i> Manage system settings</h5>
+                            <p class="card-text">Configure and customize various system settings to meet your needs.</p>
+                            <button class="btn btn-primary">Manage Settings</button>
+                        </div>
+                    </div>
+                    <!-- Customize user preferences -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 1%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-user-cog"></i> Customize user preferences</h5>
+                            <p class="card-text">Allow users to customize their preferences and settings for a personalized experience.</p>
+                            <button id="customizePreferences" class="btn btn-primary">Customize Preferences</button>
+                        </div>
+                    </div>
+                    <!-- Security and access control -->
+                    <div class="card flex-grow-1"style="border: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; margin-left: 1%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-lock"></i> Security and access control</h5>
+                            <p class="card-text">Manage security settings and access control to protect sensitive information.</p>
+                            <button id="manageSecurity" class="btn btn-primary">Manage Security</button>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+<!-- Your existing content -->
+
+
+<!-- JavaScript -->
+<script>
+    src="https://kit.fontawesome.com/a076d05399.js"
+
+    // Function to toggle the side navigation
+function toggleNav() {
+    var sidenav = document.getElementById("mySidenav");
+    var mainContent = document.querySelector(".main");
+    if (sidenav.style.width === "250px") {
+        sidenav.style.width = "0";
+        mainContent.style.marginLeft = "0";
+    } else {
+        sidenav.style.width = "250px";
+        mainContent.style.marginLeft = "250px";
+    }
+}
+
+// Function to show default content (cards and graphs)
+function showDefaultContent() {
+    var defaultContent = document.querySelector('.default-content');
+    defaultContent.style.display = 'block';
+
+    // Hide all other content
+    var allContent = document.querySelectorAll('.content');
+    allContent.forEach(function(item) {
+        item.style.display = 'none';
+    });
+}
+
+// Function to show content based on ID
+function showContent(contentId) {
+    var content = document.getElementById(contentId);
+    if (content) {
+        // Hide default content
+        var defaultContent = document.querySelector('.default-content');
+        defaultContent.style.display = 'none';
+
+        // Hide all other content
+        var allContent = document.querySelectorAll('.content');
+        allContent.forEach(function(item) {
+            item.style.display = 'none';
+        });
+
+        // Show the selected content
+        content.style.display = 'block';
+    }
+}
+
+
+
+// Data for Total Beds Occupied chart
+var totalBedsData = {
+    chart: {
+        type: 'area',
+        height: 230,
+        width: '100%'
+    },
+    series: [{
+        name: 'Total Beds Occupied',
+        data: [85, 82, 78, 75, 72, 70]
+    }],
+    xaxis: {
+        categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    }
+};
+
+// Data for ICU Beds Occupied chart
+var icuBedsData = {
+    chart: {
+        type: 'area',
+        height: 230,
+        width: '100%'
+    },
+    series: [{
+        name: 'ICU Beds Occupied',
+        data: [15, 14, 13, 12, 11, 10]
+    }],
+    xaxis: {
+        categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    }
+};
+
+// Data for FW Beds Occupied chart
+var fwBedsData = {
+    chart: {
+        type: 'area',
+        height: 230,
+        width: '100%'
+    },
+    series: [{
+        name: 'FW Beds Occupied',
+        data: [30, 28, 26, 24, 22, 20]
+    }],
+    xaxis: {
+        categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    }
+};
+
+// Data for MW Beds Occupied chart
+var mwBedsData = {
+    chart: {
+        type: 'area',
+        height: 230,
+        width: '100%'
+    },
+    series: [{
+        name: 'MW Beds Occupied',
+        data: [40, 38, 36, 34, 32, 30]
+    }],
+    xaxis: {
+        categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    }
+};
+
+// Create ApexCharts for each graph
+var totalBedsChartCard = new ApexCharts(document.getElementById('totalBedsChartCard'), totalBedsData);
+var icuBedsChartCard = new ApexCharts(document.getElementById('icuBedsChartCard'), icuBedsData);
+var fwBedsChartCard = new ApexCharts(document.getElementById('fwBedsChartCard'), fwBedsData);
+var mwBedsChartCard = new ApexCharts(document.getElementById('mwBedsChartCard'), mwBedsData);
+
+// Render the charts
+totalBedsChartCard.render();
+icuBedsChartCard.render();
+fwBedsChartCard.render();
+mwBedsChartCard.render();
+
+</script>
+
+</body>
+</html>
